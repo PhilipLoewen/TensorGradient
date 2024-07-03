@@ -1,4 +1,4 @@
-# 2024-06-28 [PDL]
+# 2024-06-03 [PDL]
 
 # Given a function f that maps a numpy ndarray to a scalar result,
 # and a specific input ndarray A, use a fourth-order difference
@@ -17,8 +17,6 @@
 #       required. That's what the "item()" method achieves.
 
 import numpy as np
-#import ppm
-#import sys
 
 
 def grad(f, M0):
@@ -30,19 +28,16 @@ def grad(f, M0):
     df = np.zeros(M0.shape)  # Container for the return value
     dM = np.zeros(M0.shape)  # Perturbation: zero of correct size
 
-    typ = abs(np.absolute(M0).sum() / M0.size)  # average element size 
+    typ = abs(np.absolute(M0).sum() / M0.size)  # average element size
     # print(f"In grad, typ = {typ}.")
     if typ == 0.0:
         # Assume a well-scaled problem.
         typ = 1.0
-    h = np.sqrt(np.finfo(float).eps) * abs(typ)
-    # h    = 100 * np.finfo(float).eps * abs(typ)
+    h = typ * (np.finfo(float).eps) ** 0.25  # Looks good in experiments
 
     it = np.nditer(M0, flags=["multi_index"])
     while not it.finished:
         dM[it.multi_index] = 1.0  # One-hot perturbation object
-
-        # print(f"M0.shape = {M0.shape}; dM.shape = {dM.shape}")
 
         if True:
             # Use the standard fourth-order difference formula
@@ -57,4 +52,3 @@ def grad(f, M0):
         it.iternext()
 
     return df
-
