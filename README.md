@@ -7,4 +7,4 @@ Here on the right the operator "*" denotes the appropriate version of the dot-pr
     
 Two fine points:
 1. Specifying the optional parameter "axes" in tensordot is essential.
-2. The tensordot function returns 0-dimensional array containing a single floating-point number. To make this a scalar, an explicit conversion is required. The "item()" method does that.
+2. The tensordot function returns a 0-dimensional array containing a single floating-point number. To make this into a scalar, an explicit type-conversion is required. The "item()" method does that.
